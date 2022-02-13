@@ -61,7 +61,7 @@ select {
     scroll-behavior: auto !important;
   }
 }
-/* Container Styles */
+/* 1 — Layout with an auto-generated number of columns */
 /*
 * https://medium.com/codyhouse/create-your-design-system-part-2-grid-layout-aa961d59b8d6
 * The mixin now accepts two arguments: 
@@ -136,6 +136,7 @@ select {
   background-color: #867dda;
 }
 
+/* 2 — One-dimensional layout with columns */
 .flex-grid {
   display: flex;
   flex-wrap: wrap;
@@ -220,6 +221,87 @@ select {
 
 .col:nth-of-type(2n+1) {
   background-color: #4f8365;
+}
+
+/* 3 — Two-dimensional layout */
+.grid-2d {
+  /* Fallback for IE & Edge Browsers < 11 */
+  grid-auto-rows: 120px;
+}
+.grid-2d::before, .grid-2d::after {
+  content: "";
+  display: table;
+}
+.grid-2d::after {
+  clear: both;
+}
+.grid-2d > * {
+  float: left;
+  margin-right: 14px;
+  margin-bottom: 14px;
+}
+@supports (grid-area: auto) {
+  .grid-2d {
+    display: grid;
+    grid-column-gap: 14px;
+    grid-row-gap: 14px;
+  }
+  .grid-2d::after, .grid-2d::before {
+    content: none;
+  }
+  .grid-2d > * {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 600px) {
+  @supports (grid-area: auto) {
+    .grid-2d {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .grid-2d > :nth-of-type(1) {
+      grid-column-end: span 7;
+      grid-row-end: span 2;
+    }
+    .grid-2d > :nth-of-type(2) {
+      grid-column-end: span 5;
+      grid-row-end: span 1;
+    }
+    .grid-2d > :nth-of-type(3) {
+      grid-column-end: span 5;
+      grid-row-end: span 1;
+    }
+    .grid-2d > :nth-of-type(4) {
+      grid-column-end: span 12;
+      grid-row-end: span 1;
+    }
+  }
+}
+
+.grid-2d {
+  font-family: sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.grid-2d > div:nth-of-type(1) {
+  background-color: #ead8c2;
+}
+.grid-2d > div:nth-of-type(2) {
+  background-color: #4f8365;
+}
+.grid-2d > div:nth-of-type(3) {
+  background-color: #eca414;
+}
+.grid-2d > div:nth-of-type(4) {
+  background-color: #3a568c;
+}
+.grid-2d > div:not(:first-of-type) {
+  color: white;
+}
+.grid-2d > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -10,11 +10,19 @@ const App = () => (
   <div className="gallery-grid">
     {divs.map(d => <div>{d}</div>)}
   </div>
+  <hr/>
   <div className="flex-grid">
     <div className="col col-9">1</div>
     <div className="col col-3">2</div>
     <div className="col col-3">3</div>
     <div className="col col-9">4</div>
+  </div>
+  <hr />
+  <div className="grid-2d">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
   </div>
   </React.Fragment>
 );

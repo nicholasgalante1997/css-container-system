@@ -1,0 +1,202 @@
+@use 'sass:math';
+
+/* root */ 
+:root {
+  --grid-gap: 14px;
+}
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+/* ------------------- */
+/* Reset               */
+/* ------------------- */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Reset margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+  margin: 0;
+}
+
+/* set up the body */
+body {
+  line-height: 1.5;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* make images easier to work with */
+img,
+picutre {
+  max-width: 100%;
+  display: block;
+}
+
+/* make form elements easier to work with */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* remove animations for people who've turned them off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Container Styles */
+$gap-horizontal: 14px;
+$gap-vertical: $gap-horizontal;
+
+@mixin grid {
+  /* Fallback for IE & Edge Browsers < 11 */
+  &::before, &::after {
+    content: '';
+    display: table;
+  }
+  
+  &::after {
+    clear: both;
+  }
+
+  > * {
+    float: left;
+    margin-right: $gap-horizontal;
+    margin-bottom: $gap-vertical;
+  }
+  
+  @supports(grid-area: auto) {
+    //CSS Grid style
+    display: grid;
+    grid-column-gap: $gap-horizontal;
+    grid-row-gap: $gap-vertical;
+    
+    &::after, &::before {
+      content: none;
+    }
+    
+    > * {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+/*
+* https://medium.com/codyhouse/create-your-design-system-part-2-grid-layout-aa961d59b8d6
+* The mixin now accepts two arguments: 
+* the first one is the minimum width of the items in the gallery 
+* (the same as before — it will be used only if the browsers support CSS Grid), 
+* the second (which is optional — default value is 3) is the number of items per row 
+* on browsers that do not support CSS Grid (where the fallback is applied).
+*/
+@mixin gridAuto($min-width, $fallback: 3) {
+  /* Fallback for IE & Edge Browsers < 11 */
+  > * {
+    float: left;
+    width: calc(100%/#{$fallback} - #{$gap-horizontal});
+  
+    &:nth-child(#{$fallback}n + 1) {
+      clear: both;
+    }
+  }
+
+  @supports(grid-area: auto) {
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    
+    > * {
+      width: auto;
+      margin: 0;
+    }
+  }
+}
+
+.gallery-grid {
+  @include grid;
+  @include gridAuto(260px);
+  grid-auto-rows: minmax(100px, auto);
+}
+
+//demo style
+.gallery-grid > div {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 8px;
+
+  &:nth-of-type(3n) {
+    background-color: #5ad0ee;
+  }
+
+  &:nth-of-type(3n + 1) {
+    background-color: #9be788;
+  }
+
+  &:nth-of-type(3n + 2) {
+    background-color: #867dda;
+  }
+}
+
+.flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--grid-gap) * -1) 0 0 calc(var(--grid-gap) * -1);
+}
+
+.col {
+  padding: calc(var(--grid-gap)) 0 0 calc(var(--grid-gap));
+  background-clip: content-box;
+  flex-basis: 100%;
+  // remove below
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  color: white; 
+}
+
+$grid-columns: 12;
+
+@function round-width ($i) {
+  $width: math.div(floor(math.div(100 * $i * 100, $grid-columns)), 100);
+  $safeVar: unquote("#{$width}%");
+  @return $safeVar;
+}
+
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    flex-basis: round-width($i);
+    max-width: round-width($i); 
+  }
+}
+
+.col:nth-of-type(2n) {
+  background-color: #3a568c;
+}
+
+.col:nth-of-type(2n+1) {
+  background-color: #4f8365;
+}

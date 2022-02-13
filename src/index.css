@@ -1,0 +1,225 @@
+@charset "UTF-8";
+/* root */
+:root {
+  --grid-gap: 14px;
+}
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+/* ------------------- */
+/* Reset               */
+/* ------------------- */
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Reset margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+  margin: 0;
+}
+
+/* set up the body */
+body {
+  line-height: 1.5;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* make images easier to work with */
+img,
+picutre {
+  max-width: 100%;
+  display: block;
+}
+
+/* make form elements easier to work with */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* remove animations for people who've turned them off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+*::before,
+*::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Container Styles */
+/*
+* https://medium.com/codyhouse/create-your-design-system-part-2-grid-layout-aa961d59b8d6
+* The mixin now accepts two arguments: 
+* the first one is the minimum width of the items in the gallery 
+* (the same as before — it will be used only if the browsers support CSS Grid), 
+* the second (which is optional — default value is 3) is the number of items per row 
+* on browsers that do not support CSS Grid (where the fallback is applied).
+*/
+.gallery-grid {
+  /* Fallback for IE & Edge Browsers < 11 */
+  /* Fallback for IE & Edge Browsers < 11 */
+  grid-auto-rows: minmax(100px, auto);
+}
+.gallery-grid::before, .gallery-grid::after {
+  content: "";
+  display: table;
+}
+.gallery-grid::after {
+  clear: both;
+}
+.gallery-grid > * {
+  float: left;
+  margin-right: 14px;
+  margin-bottom: 14px;
+}
+@supports (grid-area: auto) {
+  .gallery-grid {
+    display: grid;
+    grid-column-gap: 14px;
+    grid-row-gap: 14px;
+  }
+  .gallery-grid::after, .gallery-grid::before {
+    content: none;
+  }
+  .gallery-grid > * {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}
+.gallery-grid > * {
+  float: left;
+  width: calc(100%/3 - 14px);
+}
+.gallery-grid > *:nth-child(3n+1) {
+  clear: both;
+}
+@supports (grid-area: auto) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .gallery-grid > * {
+    width: auto;
+    margin: 0;
+  }
+}
+
+.gallery-grid > div {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 8px;
+}
+.gallery-grid > div:nth-of-type(3n) {
+  background-color: #5ad0ee;
+}
+.gallery-grid > div:nth-of-type(3n + 1) {
+  background-color: #9be788;
+}
+.gallery-grid > div:nth-of-type(3n + 2) {
+  background-color: #867dda;
+}
+
+.flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--grid-gap) * -1) 0 0 calc(var(--grid-gap) * -1);
+}
+
+.col {
+  padding: calc(var(--grid-gap)) 0 0 calc(var(--grid-gap));
+  background-clip: content-box;
+  flex-basis: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  color: white;
+}
+
+.col-1 {
+  flex-basis: 8.33%;
+  max-width: 8.33%;
+}
+
+.col-2 {
+  flex-basis: 16.66%;
+  max-width: 16.66%;
+}
+
+.col-3 {
+  flex-basis: 25%;
+  max-width: 25%;
+}
+
+.col-4 {
+  flex-basis: 33.33%;
+  max-width: 33.33%;
+}
+
+.col-5 {
+  flex-basis: 41.66%;
+  max-width: 41.66%;
+}
+
+.col-6 {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+
+.col-7 {
+  flex-basis: 58.33%;
+  max-width: 58.33%;
+}
+
+.col-8 {
+  flex-basis: 66.66%;
+  max-width: 66.66%;
+}
+
+.col-9 {
+  flex-basis: 75%;
+  max-width: 75%;
+}
+
+.col-10 {
+  flex-basis: 83.33%;
+  max-width: 83.33%;
+}
+
+.col-11 {
+  flex-basis: 91.66%;
+  max-width: 91.66%;
+}
+
+.col-12 {
+  flex-basis: 100%;
+  max-width: 100%;
+}
+
+.col:nth-of-type(2n) {
+  background-color: #3a568c;
+}
+
+.col:nth-of-type(2n+1) {
+  background-color: #4f8365;
+}
+
+/*# sourceMappingURL=index.css.map */
